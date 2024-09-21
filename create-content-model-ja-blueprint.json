@@ -1,0 +1,84 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "meta": {
+    "title": "Create Content Model latest Ja",
+    "description": "Installs the latest version of create-content-model plugin to WordPress Japanese Playground",
+    "author": "web-soudan",
+    "categories": [
+      "Content",
+      "CPT"
+    ]
+  },
+  "landingPage": "/wp-admin/",
+  "preferredVersions": {
+    "php": "8.0",
+    "wp": "latest"
+  },
+  "phpExtensionBundles": [
+    "kitchen-sink"
+  ],
+  "features": {},
+  "steps": [
+    {
+      "step": "resetData"
+    },
+    {
+      "step": "importWxr",
+      "file": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/web-soudan/wordpress-playground-blueprints/main/wordpress-theme-test-data-ja.xml"
+      }
+    },
+    {
+      "step": "mkdir",
+      "path": "/wordpress/wp-content/languages/plugins"
+    },
+    {
+      "step": "mkdir",
+      "path": "/wordpress/wp-content/languages/themes"
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/languages/ja_JA.mo",
+      "data": {
+        "resource": "url",
+        "caption": "Downloading admin-ja_JA.mo",
+        "url": "https://translate.wordpress.org/projects/wp/dev/ja/default/export-translations?format=mo"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/languages/admin-ja_JA.mo",
+      "data": {
+        "resource": "url",
+        "caption": "Downloading admin-ja_JA.mo",
+        "url": "https://translate.wordpress.org/projects/wp/dev/admin/ja/default/export-translations?format=mo"
+      }
+    },
+    {
+      "step": "installPlugin",
+      "pluginZipFile": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/Automattic/create-content-model-releases/releases/create-content-model.zip"
+      }
+    },
+    {
+      "step": "activatePlugin",
+      "pluginPath": "create-content-model/create-content-model.php"
+    },
+    {
+      "step": "setSiteOptions",
+      "options": {
+        "WPLANG": "ja_JA",
+        "timezone_string": "Asia/Tokyo",
+        "date_format": "Y年n月j日",
+        "time_format": "'H:i"
+      }
+    },
+    {
+      "step": "login",
+      "username": "admin",
+      "password": "password"
+    }
+  ]
+}
